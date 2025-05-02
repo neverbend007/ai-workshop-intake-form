@@ -42,7 +42,7 @@ const Thanks = () => {
               
               <p className="text-xl font-medium text-white mb-8">
                 Thanks for joining AI Workshop Lite! While you wait for your invite email, 
-                did you know we also run <strong>AI Workshop</strong>—a private community 
+                did you know we also run <strong>AI Workshop</strong> —a private community 
                 where members get premium workflows, live build-along sessions, and personalised feedback?
               </p>
               
@@ -53,7 +53,7 @@ const Thanks = () => {
                   rel="noopener noreferrer" 
                   className="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-4 px-6 rounded-lg text-xl text-center transition-transform duration-150 ease-out hover:scale-[1.03] focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
                 >
-                  See What PRO Includes →
+                  See What's in AI Workshop →
                 </a>
               </div>
             </div>
