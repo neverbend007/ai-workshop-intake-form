@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
@@ -89,9 +90,14 @@ const IntakeForm = () => {
       console.log('Submitting data with reCAPTCHA token');
       
       // Get webhook configuration from env variables
-      const webhookUrl = 'https://neverbend007.app.n8n.cloud/webhook/7f7508e9-05aa-41f2-af96-fab75718c049';
-      const webhookUsername = 'newIntakeForm';
-      const webhookPassword = 'qawsedrftgyhujikol';
+      const webhookUrl = import.meta.env.VITE_WEBHOOK_URL;
+      const webhookUsername = import.meta.env.VITE_WEBHOOK_USERNAME;
+      const webhookPassword = import.meta.env.VITE_WEBHOOK_PASSWORD;
+
+      // Check if webhook configuration exists
+      if (!webhookUrl || !webhookUsername || !webhookPassword) {
+        throw new Error('Webhook configuration is missing');
+      }
       
       // Add the reCAPTCHA token to the submission data
       const dataWithRecaptcha = {
