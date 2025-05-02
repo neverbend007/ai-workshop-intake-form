@@ -3,7 +3,7 @@ import React from 'react';
 
 const Hero = () => {
   return (
-    <div className="bg-indigo-600 bg-opacity-90 text-white w-full py-16 md:py-24 backdrop-blur-sm">
+    <div className="text-white w-full py-16 md:py-24 backdrop-blur-sm">
       <div className="container mx-auto px-4">
         <div className="max-w-3xl mx-auto text-center">
           <div className="flex justify-center mb-6">

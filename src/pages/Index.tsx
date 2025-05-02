@@ -12,7 +12,9 @@ const Index = () => {
         <Hero />
         <div className="container mx-auto px-4 pb-16">
           <div className="max-w-3xl mx-auto">
-            <IntakeForm />
+            <div className="bg-white bg-opacity-75 backdrop-blur-sm rounded-xl shadow-lg">
+              <IntakeForm />
+            </div>
           </div>
         </div>
       </div>
