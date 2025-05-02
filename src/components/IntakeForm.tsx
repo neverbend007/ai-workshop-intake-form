@@ -155,7 +155,7 @@ const IntakeForm = () => {
             {/* Weekly Learning Time */}
             <SelectInput
               id="weeklyTime"
-              label="Weekly learning time"
+              label="Time weekly you are dedicating to learning AI and Automation"
               error={errors.weeklyTime?.message}
               options={timeOptions}
               register={register}
