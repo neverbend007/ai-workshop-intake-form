@@ -1,8 +1,8 @@
-
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { useToast } from '@/hooks/use-toast';
+import { executeRecaptcha } from '@/lib/recaptcha';
 
 type FormValues = {
   firstName: string;
@@ -57,6 +57,21 @@ const IntakeForm = () => {
     }
   });
 
+  // Preload reCAPTCHA script when component mounts
+  useEffect(() => {
+    const siteKey = '6LcLVCsrAAAAAKnCWp2mgZJjgWe_J6I9T2z2dc8j';
+    const script = document.createElement('script');
+    script.src = `https://www.google.com/recaptcha/api.js?render=${siteKey}`;
+    script.async = true;
+    script.defer = true;
+    document.head.appendChild(script);
+
+    return () => {
+      // Clean up script when component unmounts
+      document.head.removeChild(script);
+    };
+  }, []);
+
   const onSubmit = async (data: FormValues) => {
     setIsSubmitting(true);
     
@@ -68,15 +83,21 @@ const IntakeForm = () => {
     };
 
     try {
-      // Execute reCAPTCHA (in a real implementation)
-      // const token = await executeRecaptcha('form_submit');
-
-      console.log('Submitting data:', submissionData);
+      // Execute reCAPTCHA to get token
+      const token = await executeRecaptcha('form_submit');
       
-      // Fix the webhook URL to use the correct one from .env
+      console.log('Submitting data with reCAPTCHA token');
+      
+      // Get webhook configuration from env variables
       const webhookUrl = 'https://neverbend007.app.n8n.cloud/webhook/7f7508e9-05aa-41f2-af96-fab75718c049';
       const webhookUsername = 'newIntakeForm';
       const webhookPassword = 'qawsedrftgyhujikol';
+      
+      // Add the reCAPTCHA token to the submission data
+      const dataWithRecaptcha = {
+        ...submissionData,
+        recaptchaToken: token
+      };
       
       const response = await fetch(webhookUrl, {
         method: 'POST',
@@ -84,14 +105,14 @@ const IntakeForm = () => {
           'Content-Type': 'application/json',
           'Authorization': 'Basic ' + btoa(`${webhookUsername}:${webhookPassword}`)
         },
-        body: JSON.stringify(submissionData)
+        body: JSON.stringify(dataWithRecaptcha)
       });
 
       if (!response.ok && response.status !== 0) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
       
-      console.log('Form submitted successfully');
+      console.log('Form submitted successfully with reCAPTCHA verification');
       
       // Store submission status in session storage
       sessionStorage.setItem('formSubmitted', 'true');
@@ -284,6 +305,9 @@ const IntakeForm = () => {
                 "Submit Application"
               )}
             </button>
+          </div>
+          <div className="text-xs text-white/70 text-center mt-4">
+            This site is protected by reCAPTCHA v3. By submitting this form, you agree to Google's <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer" className="underline">Privacy Policy</a> and <a href="https://policies.google.com/terms" target="_blank" rel="noopener noreferrer" className="underline">Terms of Service</a>.
           </div>
         </form>
       </div>

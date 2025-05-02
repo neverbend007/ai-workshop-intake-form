@@ -32,13 +32,57 @@ export const verifyRecaptchaToken = async (token: string): Promise<RecaptchaResp
   return data;
 };
 
+// Script loading helper
+let recaptchaLoaded = false;
+
+const loadRecaptchaScript = (): Promise<void> => {
+  return new Promise((resolve) => {
+    if (recaptchaLoaded) {
+      resolve();
+      return;
+    }
+
+    const siteKey = '6LcLVCsrAAAAAKnCWp2mgZJjgWe_J6I9T2z2dc8j';
+    const script = document.createElement('script');
+    script.src = `https://www.google.com/recaptcha/api.js?render=${siteKey}`;
+    script.async = true;
+    script.defer = true;
+    
+    script.onload = () => {
+      recaptchaLoaded = true;
+      resolve();
+    };
+    
+    document.head.appendChild(script);
+  });
+};
+
 /**
- * This function would be used client-side to execute reCAPTCHA and get a token
- * In a real implementation, you'd import the reCAPTCHA script in the head and use grecaptcha
+ * Execute reCAPTCHA and get a token
+ * This is client-side only and does not use the secret key
  */
 export const executeRecaptcha = async (action: string): Promise<string> => {
-  // In a real implementation, we'd check if grecaptcha is loaded and execute it
-  // For this example, we're just returning a dummy token
-  console.log(`Executing reCAPTCHA for action: ${action}`);
-  return 'dummy-recaptcha-token';
+  await loadRecaptchaScript();
+  
+  return new Promise((resolve, reject) => {
+    // Wait for grecaptcha to be ready
+    if (!(window as any).grecaptcha || !(window as any).grecaptcha.ready) {
+      reject(new Error('reCAPTCHA not loaded'));
+      return;
+    }
+
+    const siteKey = '6LcLVCsrAAAAAKnCWp2mgZJjgWe_J6I9T2z2dc8j';
+    
+    (window as any).grecaptcha.ready(() => {
+      (window as any).grecaptcha
+        .execute(siteKey, { action })
+        .then((token: string) => {
+          resolve(token);
+        })
+        .catch((error: Error) => {
+          console.error('reCAPTCHA error:', error);
+          reject(error);
+        });
+    });
+  });
 };
