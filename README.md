@@ -1,73 +1,89 @@
-# Welcome to your Lovable project
 
-## Project info
+# AI Workshop Lite - Intake Form
 
-**URL**: https://lovable.dev/projects/bf68b78f-7d01-4329-9f46-afca7588b531
+A sleek, single-page intake form for the free "AI Workshop Lite" community. This form collects essential onboarding data, stops bots with Google reCAPTCHA v3, and after successful submission, presents a friendly upsell page.
 
-## How can I edit this code?
+## Quick Start
 
-There are several ways of editing your application.
+1. Install dependencies:
+   ```bash
+   npm install
+   # or
+   pnpm install
+   # or
+   yarn install
+   ```
 
-**Use Lovable**
+2. Copy the `.env.example` to `.env.local` and update with your reCAPTCHA keys:
+   ```bash
+   cp .env.example .env.local
+   ```
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/bf68b78f-7d01-4329-9f46-afca7588b531) and start prompting.
+3. Start the development server:
+   ```bash
+   npm run dev
+   # or
+   pnpm dev
+   # or
+   yarn dev
+   ```
 
-Changes made via Lovable will be committed automatically to this repo.
+4. Open [http://localhost:8080](http://localhost:8080) to see the form.
 
-**Use your preferred IDE**
+## Configuration
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+### reCAPTCHA v3 Setup
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+1. Go to [Google reCAPTCHA Admin](https://www.google.com/recaptcha/admin) and register a new site
+2. Choose reCAPTCHA v3
+3. Add your domain(s) to the list
+4. Get your Site Key and Secret Key
+5. Add them to your `.env.local` file:
+   ```
+   RECAPTCHA_SITE_KEY=your_site_key_here
+   RECAPTCHA_SECRET_KEY=your_secret_key_here
+   ```
 
-Follow these steps:
+### Webhook Configuration
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+The form submits data to an n8n webhook. The default webhook URL and authentication credentials are already set up, but you can modify them in the `.env.local` file if needed:
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
-
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
+```
+WEBHOOK_URL=your_webhook_url
+WEBHOOK_USERNAME=your_username
+WEBHOOK_PASSWORD=your_password
 ```
 
-**Edit a file directly in GitHub**
+## File Structure
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+```
+src/
+├── components/
+│   ├── ConfettiEmoji.tsx   # Confetti animation component
+│   ├── Hero.tsx            # Hero section component
+│   └── IntakeForm.tsx      # Main form component with validation
+├── pages/
+│   ├── Index.tsx           # Landing page with form
+│   └── Thanks.tsx          # Thank you page with upsell
+└── App.tsx                 # App component with routes
+```
 
-**Use GitHub Codespaces**
+## Tech Stack
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
-
-## What technologies are used for this project?
-
-This project is built with:
-
-- Vite
-- TypeScript
 - React
-- shadcn-ui
-- Tailwind CSS
+- TypeScript
+- React Hook Form for form validation
+- React Router for navigation
+- Tailwind CSS for styling
+- reCAPTCHA v3 for bot prevention
 
-## How can I deploy this project?
+## Form Fields
 
-Simply open [Lovable](https://lovable.dev/projects/bf68b78f-7d01-4329-9f46-afca7588b531) and click on Share -> Publish.
-
-## Can I connect a custom domain to my Lovable project?
-
-Yes, you can!
-
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
+All fields are required and include validation:
+- First Name (≥ 2 letters, alpha)
+- Last Name (≥ 2 letters, alpha)
+- Email (RFC-5322 valid, lowercase)
+- Referral Source (select dropdown)
+- Technical Experience Level (radio buttons)
+- Weekly Learning Time (select dropdown)
+- Hidden Timestamp (auto-filled on submit)
