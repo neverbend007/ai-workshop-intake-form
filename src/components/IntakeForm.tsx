@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
@@ -105,7 +104,7 @@ const IntakeForm = () => {
   };
 
   return (
-    <div className="bg-white rounded-xl shadow-md mt-[-3rem] overflow-hidden">
+    <div className="bg-transparent rounded-xl shadow-md overflow-hidden">
       <div className="p-6 md:p-8">
         <form 
           onSubmit={handleSubmit(onSubmit)}
@@ -115,14 +114,14 @@ const IntakeForm = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {/* First Name */}
             <div className="space-y-2">
-              <label htmlFor="firstName" className="block text-sm font-medium text-gray-700">
+              <label htmlFor="firstName" className="block text-sm font-medium text-white">
                 First Name
               </label>
               <input
                 id="firstName"
                 type="text"
                 autoComplete="given-name"
-                className={`block w-full rounded-lg border ${errors.firstName ? 'border-red-300 ring-red-500' : 'border-gray-300'} px-3 py-2 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500`}
+                className={`block w-full rounded-lg border ${errors.firstName ? 'border-red-300 ring-red-500' : 'border-gray-300'} px-3 py-2 shadow-sm bg-white/70 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500`}
                 {...register('firstName', {
                   required: 'First name is required',
                   minLength: {
@@ -136,20 +135,20 @@ const IntakeForm = () => {
                 })}
               />
               {errors.firstName && (
-                <p className="mt-1 text-sm text-red-600">{errors.firstName.message}</p>
+                <p className="mt-1 text-sm text-red-300">{errors.firstName.message}</p>
               )}
             </div>
 
             {/* Last Name */}
             <div className="space-y-2">
-              <label htmlFor="lastName" className="block text-sm font-medium text-gray-700">
+              <label htmlFor="lastName" className="block text-sm font-medium text-white">
                 Last Name
               </label>
               <input
                 id="lastName"
                 type="text"
                 autoComplete="family-name"
-                className={`block w-full rounded-lg border ${errors.lastName ? 'border-red-300 ring-red-500' : 'border-gray-300'} px-3 py-2 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500`}
+                className={`block w-full rounded-lg border ${errors.lastName ? 'border-red-300 ring-red-500' : 'border-gray-300'} px-3 py-2 shadow-sm bg-white/70 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500`}
                 {...register('lastName', {
                   required: 'Last name is required',
                   minLength: {
@@ -163,20 +162,20 @@ const IntakeForm = () => {
                 })}
               />
               {errors.lastName && (
-                <p className="mt-1 text-sm text-red-600">{errors.lastName.message}</p>
+                <p className="mt-1 text-sm text-red-300">{errors.lastName.message}</p>
               )}
             </div>
 
             {/* Email */}
             <div className="space-y-2">
-              <label htmlFor="email" className="block text-sm font-medium text-gray-700">
+              <label htmlFor="email" className="block text-sm font-medium text-white">
                 Email
               </label>
               <input
                 id="email"
                 type="email"
                 autoComplete="email"
-                className={`block w-full rounded-lg border ${errors.email ? 'border-red-300 ring-red-500' : 'border-gray-300'} px-3 py-2 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500`}
+                className={`block w-full rounded-lg border ${errors.email ? 'border-red-300 ring-red-500' : 'border-gray-300'} px-3 py-2 shadow-sm bg-white/70 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500`}
                 {...register('email', {
                   required: 'Email is required',
                   pattern: {
@@ -186,18 +185,18 @@ const IntakeForm = () => {
                 })}
               />
               {errors.email && (
-                <p className="mt-1 text-sm text-red-600">{errors.email.message}</p>
+                <p className="mt-1 text-sm text-red-300">{errors.email.message}</p>
               )}
             </div>
 
             {/* How did you find us? */}
             <div className="space-y-2">
-              <label htmlFor="refSource" className="block text-sm font-medium text-gray-700">
+              <label htmlFor="refSource" className="block text-sm font-medium text-white">
                 How did you find us?
               </label>
               <select
                 id="refSource"
-                className={`block w-full rounded-lg border ${errors.refSource ? 'border-red-300 ring-red-500' : 'border-gray-300'} px-3 py-2 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500`}
+                className={`block w-full rounded-lg border ${errors.refSource ? 'border-red-300 ring-red-500' : 'border-gray-300'} px-3 py-2 shadow-sm bg-white/70 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500`}
                 {...register('refSource', {
                   required: 'Please select how you found us'
                 })}
@@ -209,14 +208,14 @@ const IntakeForm = () => {
                 ))}
               </select>
               {errors.refSource && (
-                <p className="mt-1 text-sm text-red-600">{errors.refSource.message}</p>
+                <p className="mt-1 text-sm text-red-300">{errors.refSource.message}</p>
               )}
             </div>
           </div>
 
           {/* Technical Experience Level */}
           <div className="space-y-2">
-            <label className="block text-sm font-medium text-gray-700">
+            <label className="block text-sm font-medium text-white">
               Technical experience level
             </label>
             <div className="flex flex-wrap gap-4 mt-2">
@@ -233,7 +232,7 @@ const IntakeForm = () => {
                   />
                   <label
                     htmlFor={`techLevel_${option.value}`}
-                    className="ml-2 block text-sm font-medium text-gray-700 cursor-pointer"
+                    className="ml-2 block text-sm font-medium text-white cursor-pointer"
                   >
                     {option.label}
                   </label>
@@ -241,18 +240,18 @@ const IntakeForm = () => {
               ))}
             </div>
             {errors.techLevel && (
-              <p className="mt-1 text-sm text-red-600">{errors.techLevel.message}</p>
+              <p className="mt-1 text-sm text-red-300">{errors.techLevel.message}</p>
             )}
           </div>
 
           {/* Weekly Learning Time */}
           <div className="space-y-2">
-            <label htmlFor="weeklyTime" className="block text-sm font-medium text-gray-700">
+            <label htmlFor="weeklyTime" className="block text-sm font-medium text-white">
               Weekly learning time
             </label>
             <select
               id="weeklyTime"
-              className={`block w-full rounded-lg border ${errors.weeklyTime ? 'border-red-300 ring-red-500' : 'border-gray-300'} px-3 py-2 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500`}
+              className={`block w-full rounded-lg border ${errors.weeklyTime ? 'border-red-300 ring-red-500' : 'border-gray-300'} px-3 py-2 shadow-sm bg-white/70 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500`}
               {...register('weeklyTime', {
                 required: 'Please select your weekly learning time'
               })}
@@ -264,7 +263,7 @@ const IntakeForm = () => {
               ))}
             </select>
             {errors.weeklyTime && (
-              <p className="mt-1 text-sm text-red-600">{errors.weeklyTime.message}</p>
+              <p className="mt-1 text-sm text-red-300">{errors.weeklyTime.message}</p>
             )}
           </div>
 
@@ -294,4 +293,3 @@ const IntakeForm = () => {
 };
 
 export default IntakeForm;
-
