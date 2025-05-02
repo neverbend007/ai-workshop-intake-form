@@ -1,4 +1,35 @@
-import { getConfig } from './runtimeConfig';
+/**
+ * Helper function to verify reCAPTCHA v3 token with Google's API
+ * This would be used in a real implementation within edge functions
+ */
+interface RecaptchaResponse {
+  success: boolean;
+  score: number;
+  action: string;
+  challenge_ts: string;
+  hostname: string;
+  error?: string[];
+}
+
+export const verifyRecaptchaToken = async (token: string): Promise<RecaptchaResponse> => {
+  const secretKey = process.env.RECAPTCHA_SECRET_KEY;
+  
+  if (!secretKey) {
+    throw new Error('reCAPTCHA secret key is missing');
+  }
+  
+  const response = await fetch('https://www.google.com/recaptcha/api/siteverify', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded',
+    },
+    body: `secret=${secretKey}&response=${token}`,
+  });
+
+  const data = await response.json();
+  
+  return data;
+};
 
 // Script loading helper
 let recaptchaLoaded = false;
@@ -10,8 +41,7 @@ const loadRecaptchaScript = (): Promise<void> => {
       return;
     }
 
-    const config = getConfig();
-    const siteKey = config.RECAPTCHA_SITE_KEY;
+    const siteKey = import.meta.env.VITE_RECAPTCHA_SITE_KEY;
     
     if (!siteKey) {
       console.error('reCAPTCHA site key is missing');
@@ -46,8 +76,7 @@ export const executeRecaptcha = async (action: string): Promise<string> => {
       return;
     }
 
-    const config = getConfig();
-    const siteKey = config.RECAPTCHA_SITE_KEY;
+    const siteKey = import.meta.env.VITE_RECAPTCHA_SITE_KEY;
     
     if (!siteKey) {
       reject(new Error('reCAPTCHA site key is missing'));

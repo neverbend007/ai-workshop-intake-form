@@ -1,10 +1,8 @@
 import { useEffect } from 'react';
-import { getConfig } from '@/lib/runtimeConfig';
 
 export const useRecaptcha = () => {
   useEffect(() => {
-    const config = getConfig();
-    const siteKey = config.RECAPTCHA_SITE_KEY;
+    const siteKey = import.meta.env.VITE_RECAPTCHA_SITE_KEY;
     
     if (!siteKey) {
       console.error('reCAPTCHA site key is missing');
