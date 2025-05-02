@@ -48,7 +48,7 @@ const Thanks = () => {
               
               <div className="flex flex-col w-full">
                 <a 
-                  href="https://www.skool.com/aiworkshop" 
+                  href="https://www.skool.com/aiworkshop/about" 
                   target="_blank"
                   rel="noopener noreferrer" 
                   className="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-4 px-6 rounded-lg text-xl text-center transition-transform duration-150 ease-out hover:scale-[1.03] focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
