@@ -35,6 +35,7 @@ const timeOptions = [
 ];
 
 const techLevelOptions = [
+  { value: '', label: 'Select an option', disabled: true },
   { value: 'Beginner', label: 'Beginner' },
   { value: 'Intermediate', label: 'Intermediate' },
   { value: 'Advanced', label: 'Advanced' }
@@ -217,60 +218,52 @@ const IntakeForm = () => {
                 <p className="mt-1 text-sm text-red-300">{errors.refSource.message}</p>
               )}
             </div>
-          </div>
-
-          {/* Technical Experience Level */}
-          <div className="space-y-2">
-            <label className="block text-sm font-medium text-white">
-              Technical experience level
-            </label>
-            <div className="flex flex-wrap gap-4 mt-2">
-              {techLevelOptions.map(option => (
-                <div key={option.value} className="flex items-center">
-                  <input
-                    id={`techLevel_${option.value}`}
-                    type="radio"
-                    className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 cursor-pointer"
-                    value={option.value}
-                    {...register('techLevel', {
-                      required: 'Please select your technical level'
-                    })}
-                  />
-                  <label
-                    htmlFor={`techLevel_${option.value}`}
-                    className="ml-2 block text-sm font-medium text-white cursor-pointer"
-                  >
+            
+            {/* Technical Experience Level Dropdown */}
+            <div className="space-y-2">
+              <label htmlFor="techLevel" className="block text-sm font-medium text-white">
+                Technical experience level
+              </label>
+              <select
+                id="techLevel"
+                className={`block w-full rounded-lg border ${errors.techLevel ? 'border-red-300 ring-red-500' : 'border-gray-300'} px-3 py-2 shadow-sm bg-white/70 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500`}
+                {...register('techLevel', {
+                  required: 'Please select your technical level'
+                })}
+              >
+                {techLevelOptions.map(option => (
+                  <option key={option.value} value={option.value} disabled={option.disabled}>
                     {option.label}
-                  </label>
-                </div>
-              ))}
+                  </option>
+                ))}
+              </select>
+              {errors.techLevel && (
+                <p className="mt-1 text-sm text-red-300">{errors.techLevel.message}</p>
+              )}
             </div>
-            {errors.techLevel && (
-              <p className="mt-1 text-sm text-red-300">{errors.techLevel.message}</p>
-            )}
-          </div>
-
-          {/* Weekly Learning Time */}
-          <div className="space-y-2">
-            <label htmlFor="weeklyTime" className="block text-sm font-medium text-white">
-              Weekly learning time
-            </label>
-            <select
-              id="weeklyTime"
-              className={`block w-full rounded-lg border ${errors.weeklyTime ? 'border-red-300 ring-red-500' : 'border-gray-300'} px-3 py-2 shadow-sm bg-white/70 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500`}
-              {...register('weeklyTime', {
-                required: 'Please select your weekly learning time'
-              })}
-            >
-              {timeOptions.map(option => (
-                <option key={option.value} value={option.value} disabled={option.disabled}>
-                  {option.label}
-                </option>
-              ))}
-            </select>
-            {errors.weeklyTime && (
-              <p className="mt-1 text-sm text-red-300">{errors.weeklyTime.message}</p>
-            )}
+            
+            {/* Weekly Learning Time */}
+            <div className="space-y-2">
+              <label htmlFor="weeklyTime" className="block text-sm font-medium text-white">
+                Weekly learning time
+              </label>
+              <select
+                id="weeklyTime"
+                className={`block w-full rounded-lg border ${errors.weeklyTime ? 'border-red-300 ring-red-500' : 'border-gray-300'} px-3 py-2 shadow-sm bg-white/70 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500`}
+                {...register('weeklyTime', {
+                  required: 'Please select your weekly learning time'
+                })}
+              >
+                {timeOptions.map(option => (
+                  <option key={option.value} value={option.value} disabled={option.disabled}>
+                    {option.label}
+                  </option>
+                ))}
+              </select>
+              {errors.weeklyTime && (
+                <p className="mt-1 text-sm text-red-300">{errors.weeklyTime.message}</p>
+              )}
+            </div>
           </div>
 
           <div className="pt-2">
