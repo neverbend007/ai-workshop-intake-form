@@ -37,7 +37,7 @@ const Thanks = () => {
               </div>
               
               <h1 className="text-3xl md:text-4xl font-bold mb-6 flex items-center text-white">
-                Welcome to the Workshop 👋
+                Welcome to AI Workshop Lite!👋
               </h1>
               
               <p className="text-xl font-medium text-white mb-8">
@@ -53,7 +53,7 @@ const Thanks = () => {
                   rel="noopener noreferrer" 
                   className="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-4 px-6 rounded-lg text-xl text-center transition-transform duration-150 ease-out hover:scale-[1.03] focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
                 >
-                  See What's in AI Workshop →
+                  See whats in AI Workshop →
                 </a>
               </div>
             </div>
