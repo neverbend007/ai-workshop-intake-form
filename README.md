@@ -14,9 +14,9 @@ A sleek, single-page intake form for the free "AI Workshop Lite" community. This
    yarn install
    ```
 
-2. Copy the `.env.example` to `.env.local` and update with your reCAPTCHA keys:
+2. Copy the `.env.example` to `.env` and update with your reCAPTCHA keys and webhook credentials:
    ```bash
-   cp .env.example .env.local
+   cp .env.example .env
    ```
 
 3. Start the development server:
@@ -30,6 +30,46 @@ A sleek, single-page intake form for the free "AI Workshop Lite" community. This
 
 4. Open [http://localhost:8080](http://localhost:8080) to see the form.
 
+## Docker Deployment
+
+The application can be easily deployed using Docker:
+
+1. Create a `.env` file with your environment variables:
+   ```
+   VITE_RECAPTCHA_SITE_KEY=your_site_key_here
+   VITE_WEBHOOK_URL=your_webhook_url
+   VITE_WEBHOOK_USERNAME=your_webhook_username
+   VITE_WEBHOOK_PASSWORD=your_webhook_password
+   ```
+
+2. Build and run using Docker Compose:
+   ```bash
+   # Make the deployment script executable
+   chmod +x deploy.sh
+   
+   # Run the deployment script
+   ./deploy.sh
+   
+   # Alternatively, you can run Docker Compose directly
+   docker-compose up --build -d
+   ```
+
+3. The application will be accessible at [http://localhost:8080](http://localhost:8080)
+
+### Using with Nginx Proxy Manager
+
+If you're using Nginx Proxy Manager:
+
+1. Deploy the Docker container as described above
+2. In Nginx Proxy Manager, create a new proxy host:
+   - Domain Names: Your domain(s)
+   - Scheme: http
+   - Forward Hostname/IP: Your server's IP or `app` if using Docker networks
+   - Forward Port: 80 (the container's exposed port)
+   - Enable SSL if needed
+
+3. Make sure your reCAPTCHA domain configuration includes the domain you're using
+
 ## Configuration
 
 ### reCAPTCHA v3 Setup
@@ -38,34 +78,33 @@ A sleek, single-page intake form for the free "AI Workshop Lite" community. This
 2. Choose reCAPTCHA v3
 3. Add your domain(s) to the list
 4. Get your Site Key and Secret Key
-5. Add them to your `.env.local` file:
+5. Add the Site Key to your `.env` file:
    ```
-   RECAPTCHA_SITE_KEY=your_site_key_here
-   RECAPTCHA_SECRET_KEY=your_secret_key_here
+   VITE_RECAPTCHA_SITE_KEY=your_site_key_here
    ```
 
 ### Webhook Configuration
 
-The form submits data to an n8n webhook. The default webhook URL and authentication credentials are already set up, but you can modify them in the `.env.local` file if needed:
+The form submits data to an n8n webhook. Configure the webhook details in your `.env` file:
 
 ```
-WEBHOOK_URL=your_webhook_url
-WEBHOOK_USERNAME=your_username
-WEBHOOK_PASSWORD=your_password
+VITE_WEBHOOK_URL=your_webhook_url
+VITE_WEBHOOK_USERNAME=your_username
+VITE_WEBHOOK_PASSWORD=your_password
 ```
 
 ## File Structure
 
 ```
 src/
-├── components/
-│   ├── ConfettiEmoji.tsx   # Confetti animation component
-│   ├── Hero.tsx            # Hero section component
-│   └── IntakeForm.tsx      # Main form component with validation
-├── pages/
-│   ├── Index.tsx           # Landing page with form
-│   └── Thanks.tsx          # Thank you page with upsell
-└── App.tsx                 # App component with routes
+├── components/    # UI components
+├── constants/     # Form options and constants
+├── hooks/         # Custom React hooks
+├── lib/           # Utility functions
+├── pages/         # Page components
+├── services/      # API and service functions
+├── types/         # TypeScript type definitions
+└── App.tsx        # App component with routes
 ```
 
 ## Tech Stack
@@ -76,6 +115,7 @@ src/
 - React Router for navigation
 - Tailwind CSS for styling
 - reCAPTCHA v3 for bot prevention
+- Docker for containerization
 
 ## Form Fields
 
