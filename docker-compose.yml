@@ -1,0 +1,15 @@
+version: '3.8'
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8080:80"
+    environment:
+      - VITE_RECAPTCHA_SITE_KEY=${VITE_RECAPTCHA_SITE_KEY}
+      - VITE_WEBHOOK_URL=${VITE_WEBHOOK_URL}
+      - VITE_WEBHOOK_USERNAME=${VITE_WEBHOOK_USERNAME}
+      - VITE_WEBHOOK_PASSWORD=${VITE_WEBHOOK_PASSWORD}
+    restart: unless-stopped

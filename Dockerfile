@@ -1,0 +1,36 @@
+# Build stage
+FROM node:20-alpine as build
+
+# Set working directory
+WORKDIR /app
+
+# Copy package.json and package-lock.json
+COPY package*.json ./
+
+# Install dependencies
+RUN npm ci
+
+# Copy all files
+COPY . .
+
+# Create .env file from environment variables at build time
+# This is for Vite to access environment variables during build
+RUN echo "VITE_RECAPTCHA_SITE_KEY=${VITE_RECAPTCHA_SITE_KEY}" > .env
+RUN echo "VITE_WEBHOOK_URL=${VITE_WEBHOOK_URL}" >> .env
+RUN echo "VITE_WEBHOOK_USERNAME=${VITE_WEBHOOK_USERNAME}" >> .env
+RUN echo "VITE_WEBHOOK_PASSWORD=${VITE_WEBHOOK_PASSWORD}" >> .env
+
+# Build the app
+RUN npm run build
+
+# Production stage - use Nginx to serve the static files
+FROM nginx:alpine
+
+# Copy built files from build stage to nginx serve directory
+COPY --from=build /app/dist /usr/share/nginx/html
+
+# Expose port
+EXPOSE 80
+
+# Start Nginx server
+CMD ["nginx", "-g", "daemon off;"]
