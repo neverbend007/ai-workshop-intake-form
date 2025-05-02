@@ -1,9 +1,11 @@
-
 import { useEffect } from 'react';
+import { getConfig } from '@/lib/runtimeConfig';
 
 export const useRecaptcha = () => {
   useEffect(() => {
-    const siteKey = import.meta.env.VITE_RECAPTCHA_SITE_KEY;
+    const config = getConfig();
+    const siteKey = config.RECAPTCHA_SITE_KEY;
+    
     if (!siteKey) {
       console.error('reCAPTCHA site key is missing');
       return;
@@ -17,7 +19,9 @@ export const useRecaptcha = () => {
 
     return () => {
       // Clean up script when component unmounts
-      document.head.removeChild(script);
+      if (document.head.contains(script)) {
+        document.head.removeChild(script);
+      }
     };
   }, []);
 };
