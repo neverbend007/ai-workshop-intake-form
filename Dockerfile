@@ -10,15 +10,8 @@ COPY package*.json ./
 # Install dependencies
 RUN npm ci
 
-# Copy all files
+# Copy all files including .env
 COPY . .
-
-# Create .env file from environment variables at build time
-# This is for Vite to access environment variables during build
-RUN echo "VITE_RECAPTCHA_SITE_KEY=${VITE_RECAPTCHA_SITE_KEY}" > .env
-RUN echo "VITE_WEBHOOK_URL=${VITE_WEBHOOK_URL}" >> .env
-RUN echo "VITE_WEBHOOK_USERNAME=${VITE_WEBHOOK_USERNAME}" >> .env
-RUN echo "VITE_WEBHOOK_PASSWORD=${VITE_WEBHOOK_PASSWORD}" >> .env
 
 # Build the app
 RUN npm run build
