@@ -42,7 +42,12 @@ const loadRecaptchaScript = (): Promise<void> => {
       return;
     }
 
-    const siteKey = '6LcLVCsrAAAAAKnCWp2mgZJjgWe_J6I9T2z2dc8j';
+    const siteKey = import.meta.env.VITE_RECAPTCHA_SITE_KEY;
+    if (!siteKey) {
+      console.error('reCAPTCHA site key is missing');
+      return;
+    }
+    
     const script = document.createElement('script');
     script.src = `https://www.google.com/recaptcha/api.js?render=${siteKey}`;
     script.async = true;
@@ -71,7 +76,11 @@ export const executeRecaptcha = async (action: string): Promise<string> => {
       return;
     }
 
-    const siteKey = '6LcLVCsrAAAAAKnCWp2mgZJjgWe_J6I9T2z2dc8j';
+    const siteKey = import.meta.env.VITE_RECAPTCHA_SITE_KEY;
+    if (!siteKey) {
+      reject(new Error('reCAPTCHA site key is missing'));
+      return;
+    }
     
     (window as any).grecaptcha.ready(() => {
       (window as any).grecaptcha
